@@ -1,0 +1,295 @@
+ /* ------------------------------
+   HELP CSS
+   ------------------------------ */
+
+
+
+#helpPanel {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    background: yellow;
+    border: 2px solid #0002;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+#helpPanel img {
+    width: 200px;
+    border: 1px solid red;
+}
+
+
+#helpPanel.help {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 425px; /*was 320 */
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#helpPanel.hidden {
+  display: none;
+}
+
+
+.help-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;              /* ⭐ indicates draggable */
+    background: #333;
+    color: white;
+    user-select: none;         /* ⭐ prevents text selection while dragging */
+    width: 75%;
+    padding: 4px 10px;
+    border-radius: 6px 6px 0 0;
+}
+
+
+.help-content {
+  margin-top: 10px;
+  min-height: 120px;
+}
+
+.help-buttons {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.help-buttons button {
+  padding: 6px 5px;
+  font-size: 14px;
+}
+.help-actions {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* ⭐ two equal columns */
+  gap: 10px;                        /* spacing between buttons */
+  width: 100%;
+}
+/*
+.help-actions {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+*/
+/*
+.help-actions button {
+  padding: 8px 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #eee;
+  cursor: pointer;
+}
+
+.help-actions button:hover {
+  background: #ddd;
+}
+*/
+
+/*
+.help-icon {
+    position: absolute;
+    left: 10px;
+  top: 10px;
+  left: -500px;
+
+  background: none;
+  border: none;
+
+  color: #ffb700;        
+  font-size: 32px;
+  font-weight: bold;
+
+  cursor: pointer;
+  z-index: 999;
+
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, color 0.15s ease;
+
+  display: inline-block;  
+  width: auto;            
+  height: auto;           
+  line-height: 1;        
+  padding: 0;
+}
+*/
+.help-icon {
+  all: unset;
+  position: absolute;
+
+  color: #ffb700;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+
+  display: inline-block;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+
+.help-icon:hover {
+  color: #ffdd33;        
+  transform: scale(1.15);
+}
+
+.help-icon:active {
+  color: #ffb700;       
+  transform: scale(0.95);
+}
+
+
+body.drawing-enabled::after {
+  content: "DRAWING MODE";
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #f7c600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+body.dictionaryLookup-enabled::before {
+  content: "DICTIONARY LOOKUP MODE";
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  background: #f7c600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  z-index: 9999;        /* ⭐ sits above everything */  
+}
+
+.dictionary-popup {
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 20px;
+    width: 60%;
+    max-height: 60%;
+    overflow-y: auto;
+    border: 2px solid #333;
+    border-radius: 8px;
+    z-index: 2000;
+}
+
+
+.dict-header {
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    cursor: move;              /* ⭐ indicates draggable */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;         /* ⭐ prevents text selection while dragging */
+    border-radius: 6px 6px 0 0;
+    width: 75%;
+}
+
+.dict-close {
+    all: unset;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #444;
+    padding: 4px;
+}
+
+.dict-close:hover {
+    color: #000;
+    transform: scale(1.2);
+}
+
+.dict-highlight {
+    background: #ffeb99 !important;   /* soft yellow */
+    outline: 2px solid #d4a300;
+    border-radius: 10px;
+}
+
+#enableDictionaryBtn { background: #0077cc; color: white; }
+#enableDrawingBtn    { background: brown;   color: white; }
+#checkBtn            { background: #0077cc; color: white; }
+#fillAllBtn          { background: green;   color: white; }
+#resetPuzzleBtn      { background: black;   color: white; }
+
+#enableDictionaryBtn:hover { background: #005fa3; }
+#enableDrawingBtn:hover    { background: #8b0000; }
+#checkBtn:hover            { background: #005fa3; }
+#fillAllBtn:hover          { background: #006600; }
+#resetPuzzleBtn:hover      { background: #005fa3; }
+
+.help-actions button {
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #eee;
+  cursor: pointer;
+  width: 100%;     /* ⭐ fills its grid cell */
+  text-align: center;
+}
+
+.help-actions button:hover {
+  background: #ddd;
+}
+
+.help-title-info {
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.help-close {
+    all: unset;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #444;
+    padding: 4px;
+}
+
+.help-close:hover {
+    color: #000;
+    transform: scale(1.2);
+}

@@ -33,7 +33,9 @@ let draggingPasted = false;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 
+// comes from copy and cut
 function activatePasteMode() {
+    
     if (!clipboard) return;  // can't paste without something copied
 
     pasteMode = true;
@@ -48,12 +50,15 @@ function activatePasteMode() {
     draggingPasted = false;
 
     safeRedraw();
+    removeRectangle();
+    
 }
 
 // -------------------------
 // Load image
 // -------------------------
 fileInput.addEventListener('change', e => {
+
     const file = e.target.files[0];
     if (!file) return;
 
@@ -252,7 +257,8 @@ function finishSelection() {
 	cutBtn.disabled = true;
     }
 
-    redraw();
+//    redraw(); // removes rectangle
+    safeRedraw();
 //    if (selection) drawSelectionRect();
 }
 
@@ -262,47 +268,101 @@ function finishSelection() {
 copyBtn.addEventListener('click', () => {
     if (!selection) return;
 
-    clipboard = ctx.getImageData(selection.x, selection.y, selection.w, selection.h);
+    //    remove the red boarder before we copy to the clipboard
+    const recX = selection.x + 2;
+    const recY = selection.y + 2;
+    const recW = selection.w - 4;
+    const recH = selection.h - 4;
+    
+    clipboard = ctx.getImageData(recX, recY, recW,recH);
+
+    //    clipboard = ctx.getImageData(selection.x, selection.y, selection.w, selection.h);
     pasteModeBtn.disabled = false;
 
+    // Clear selection rectangle
+    //selection = null;
+//    isSelecting = false;
+    
     safeRedraw();
 });
 
 cutBtn.addEventListener('click', () => {
     if (!selection) return;
 
+    cLog("let do a cut");
+    
     clipboard = ctx.getImageData(selection.x, selection.y, selection.w, selection.h);
+
     ctx.clearRect(selection.x, selection.y, selection.w, selection.h);
 
-    redraw(); // remove overlays
+//    return;
+    
+//    redraw(); // remove overlays
 
     img.src = canvas.toDataURL();
 
+//    selection             = true;
+//    isSelecting           = true;
+//
+//    copyBtn.disabled      = true;
+//    cutBtn.disabled       = true;
+
+    // ...?? here ...
+    
+//    pasteModeBtn.disabled = false;
+//
+// console.log("CUT: pasteModeBtn.disabled BEFORE =", pasteModeBtn.disabled);
+//pasteModeBtn.disabled = false;
+//console.log("CUT: pasteModeBtn.disabled AFTER =", pasteModeBtn.disabled);
+    
+    //    console.log("before .. pasteModeBtn =", pasteModeBtn);
+//
+//    activatePasteMode(); // ??? .. here  
+//
+//    console.log("after .. pasteModeBtn =", pasteModeBtn);
+
+    //    safeRedraw();
+       // Remove the red rectangle (same as copy)
     selection = null;
     isSelecting = false;
 
-    copyBtn.disabled = true;
-    cutBtn.disabled = true;
-    pasteModeBtn.disabled = false;
+    // Redraw without the red rectangle (same as copy)
+//    safeRedraw();
 
-    safeRedraw();
+    // Force image reload
+    img.onload = () => {
+        pasteModeBtn.disabled = false;
+        safeRedraw();
+    };
+
+//    img.src = canvas.toDataURL() + "?t=" + performance.now();
+
 });
+
 
 // -------------------------
 // Paste Mode toggle
 // -------------------------
 pasteModeBtn.addEventListener('click', () => {
+
+//    cLog("clicked PasteMode");
+    
     if (!clipboard) return;
     
     pasteMode = !pasteMode;
     pasteModeBtn.classList.toggle('active', pasteMode);
     
     if (pasteMode) {
+
+//	cLog(" .. if .. clicked PasteMode");
+
 	// Entering paste mode
 	selection = null;
 	isSelecting = false;
 	safeRedraw();
     } else {
+
+//	cLog(" .. else .. clicked PasteMode");
 	
 	redraw(); // clears canvas + redraws base image
 	
@@ -335,6 +395,8 @@ exportBtn.addEventListener('click', () => {
 // -------------------------
 // Drawing helpers
 // -------------------------
+
+// ALSO, clears the rectangle
 function redraw() {
     if (!hasImage) return;
 
@@ -345,6 +407,11 @@ function redraw() {
 	ctx.putImageData(pastedObject.data, pastedObject.x, pastedObject.y);
     }
 }//redraw
+
+function removeRectangle(){
+    if (!hasImage) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 //function safeRedraw() {
 //  setTimeout(() => { redraw(); redraw(); }, 10);
@@ -358,6 +425,8 @@ function safeRedraw() {
 }
 
 function drawSelectionRect() {
+//    cLog("drawSelectionRect");
+    
     if (!selection && !isSelecting) return;
 
     const x = isSelecting ? Math.min(startX, currentX) : selection.x;
@@ -371,6 +440,9 @@ function drawSelectionRect() {
     ctx.setLineDash([6, 4]);
     ctx.strokeRect(x, y, w, h);
     ctx.restore();
+
+//    cLog("...DONE drawing");
+    
 }
 
 function drawPastedOutline() {
@@ -415,3 +487,51 @@ canvas.addEventListener('touchend', e => {
 canvas.addEventListener('dblclick', e => {
     activatePasteMode();
 });
+
+// -------------------------
+// Dragging pasted object (mouse)
+// -------------------------
+canvas.addEventListener('mousedown', e => {
+    if (!pasteMode || !pastedObject) return;
+
+    const pos = getCanvasCoords(e.clientX, e.clientY);
+
+    if (isInsidePastedObject(pos.x, pos.y)) {
+        pastedSelected = true;
+        draggingPasted = true;
+        dragOffsetX = pos.x - pastedObject.x;
+        dragOffsetY = pos.y - pastedObject.y;
+        redraw();
+        drawPastedOutline();
+    }
+});
+
+canvas.addEventListener('mousemove', e => {
+    if (!draggingPasted || !pastedSelected) return;
+
+    const pos = getCanvasCoords(e.clientX, e.clientY);
+
+    pastedObject.x = pos.x - dragOffsetX;
+    pastedObject.y = pos.y - dragOffsetY;
+
+    redraw();
+    drawPastedOutline();
+});
+
+canvas.addEventListener('mouseup', () => {
+    draggingPasted = false;
+});
+
+// *** mainline
+function main() {
+    makeHelpPopupDraggable();
+
+    //    wireUI();
+//    wireCanvasEvents();
+//    resetState();
+//    safeRedraw();
+
+}
+
+document.addEventListener("DOMContentLoaded", main);
+
