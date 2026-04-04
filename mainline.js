@@ -289,11 +289,22 @@ copyBtn.addEventListener('click', () => {
 cutBtn.addEventListener('click', () => {
     if (!selection) return;
 
-    cLog("let do a cut");
-    
-    clipboard = ctx.getImageData(selection.x, selection.y, selection.w, selection.h);
+//    cLog("let do a cut");
 
-    ctx.clearRect(selection.x, selection.y, selection.w, selection.h);
+    let recX = selection.x + 2;
+    let recY = selection.y + 2;
+    let recW = selection.w - 4;
+    let recH = selection.h - 4;
+    clipboard = ctx.getImageData(recX, recY, recW,recH);
+
+//    clipboard = ctx.getImageData(selection.x, selection.y, selection.w, selection.h);
+
+//    ctx.clearRect(selection.x, selection.y, selection.w, selection.h);
+    recX = selection.x - 2;
+    recY = selection.y - 2;
+    recW = selection.w + 4;
+    recH = selection.h + 4;
+    ctx.clearRect(recX, recY, recW,recH);
 
 //    return;
     
@@ -482,10 +493,16 @@ canvas.addEventListener('touchend', e => {
         activatePasteMode();
     }
     lastTapTime = now;
+    
+//    dei("pasteModeBtn").textContent = "Tap to Paste";
+
 });
 
 canvas.addEventListener('dblclick', e => {
     activatePasteMode();
+
+//    dei("pasteModeBtn").textContent = "double tap to Finish";
+    
 });
 
 // -------------------------

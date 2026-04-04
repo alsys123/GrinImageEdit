@@ -1,17 +1,31 @@
 
 body { font-family: sans-serif; margin: 20px; }
-  #toolbar { margin-bottom: 10px; }
-  canvas {
-      border: 1px solid #333;
-      touch-action: none;
-      cursor: crosshair;
-      max-width: 100%;
-      height: auto;
-  }
-  .active {
-      background: #4caf50;
-      color: white;
-  }
+#toolbar { margin-bottom: 10px; }
+canvas {
+    border: 1px solid #333;
+    touch-action: none;
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+}
 
-  
-  
+.active {
+    background: #4caf50;
+    color: white;
+}
+
+/*
+#pasteModeBtn:not(:disabled) {
+    background-color: gold;
+    color: white;
+    cursor: pointer;
+    opacity: 1;
+}
+
+#pasteModeBtn:disabled {
+    background-color: #777 !important;
+    color: #ccc !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+*/
