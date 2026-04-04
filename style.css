@@ -1,31 +1,64 @@
 
-body { font-family: sans-serif; margin: 20px; }
-#toolbar { margin-bottom: 10px; }
+html, body {
+    height: 100%;
+    margin: 20px;    
+    overflow: hidden;      
+    font-family: sans-serif;
+}
+
+
+#toolbar {
+    margin-bottom: 10px;
+    position: fixed;
+    top: 150px;
+    left: 100px;
+    right: 0;
+    height: 40px;    
+    z-index: 1000;
+    text-align: center;
+    width: 80%;
+}
+
+#toolbar button {
+    font-size: 14px;     /* text size */
+    padding: 8px 10px;   /* button size */
+    margin-right: 10px;
+}
+
+#toolbar input {
+    font-size: 18px;     /* text size */
+    padding: 8px 10px;   /* button size */
+    vertical-align: middle;
+}
+
+#canvasScrollArea {
+    position: absolute;
+    top: 200px;         
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; 
+    text-align: center; 
+}
+
 canvas {
     border: 1px solid #333;
     touch-action: none;
     cursor: crosshair;
-    max-width: 100%;
     height: auto;
+    display: block;
+    max-width: none;
+    margin: 0 auto;
+    max-width: 85%;
 }
+
+
 
 .active {
     background: #4caf50;
     color: white;
 }
 
-/*
-#pasteModeBtn:not(:disabled) {
-    background-color: gold;
-    color: white;
-    cursor: pointer;
-    opacity: 1;
-}
 
-#pasteModeBtn:disabled {
-    background-color: #777 !important;
-    color: #ccc !important;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-*/
+  

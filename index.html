@@ -14,13 +14,26 @@
   <h3>Ideal for editing Chord Charts (v0.1.14)</h3>
   
   <br>
+
+  <!--
   <div id="toolbar">
-  <input type="file" id="fileInput" accept="image/*">
-  <button id="copyBtn" disabled>Copy</button>
-  <button id="cutBtn" disabled>Cut</button>
-  <button id="pasteModeBtn" disabled>Paste</button>
-  <button id="exportBtn">Save File</button>
-  <button id="helpBtn">Help</button>
+    <input type="file" id="fileInput" accept="image/*">
+    <button id="copyBtn" disabled>Copy</button>
+    <button id="cutBtn" disabled>Cut</button>
+    <button id="pasteModeBtn" disabled>Paste</button>
+    <button id="exportBtn">Save File</button>
+    <button id="helpBtn">Help</button>
+  </div>
+  -->
+  
+  <div id="toolbar">
+    <input type="file" id="fileInput" accept="image/*">
+
+    <button id="copyBtn" disabled>📋 Copy</button>
+    <button id="cutBtn" disabled>✂️ Cut</button>
+    <button id="pasteModeBtn" disabled>📌 Paste</button>
+    <button id="exportBtn">💾 Save</button>
+    <button id="helpBtn">❓ Help</button>
 </div>
 
 <div id="helpPanel" class="help hidden">
@@ -45,27 +58,27 @@
       <div class="help-buttons">
 
         <div class="help-title-info">Help Information</div>
-<div class="help-buttons">
-  <button data-help="about">
-    <span class="help-icon-svg">📘</span> About
-  </button>
-
-  <button data-help="copy">
-    <span class="help-icon-svg">📋</span> Copy
-  </button>
-
-  <button data-help="cutPaste">
-    <span class="help-icon-svg">✂️</span> Cut & Paste
-  </button>
-
-  <button data-help="saving">
-    <span class="help-icon-svg">💾</span> Saving
-  </button>
-
-<button data-help="faq">
-    <span class="help-icon-svg">❓</span> FAQ
-</button>
-
+	<div class="help-buttons">
+	  <button data-help="about">
+	    <span class="help-icon-svg">📘</span> About
+	  </button>
+	  
+	  <button data-help="copy">
+	    <span class="help-icon-svg">📋</span> Copy
+	  </button>
+	  
+	  <button data-help="cutPaste">
+	    <span class="help-icon-svg">✂️</span> Cut & Paste
+	  </button>
+	  
+	  <button data-help="saving">
+	    <span class="help-icon-svg">💾</span> Saving
+	  </button>
+	  
+	  <button data-help="faq">
+	    <span class="help-icon-svg">❓</span> FAQ
+	  </button>
+	  
 </div>
 
 	<!--
@@ -78,8 +91,9 @@
       </div>
 </div>
 
-<canvas id="canvas" width="800" height="600"></canvas>
-
+<div id="canvasScrollArea">
+  <canvas id="canvas" width="800" height="600"></canvas>
+</div>
 
 <script src="utils.js"></script>
 <script src="mainline.js"></script>

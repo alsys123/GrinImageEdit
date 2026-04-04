@@ -95,39 +95,52 @@ fileInput.addEventListener('change', e => {
 	    };
 	*/
 	img.onload = () => {
+	    
+	    // Create a temporary canvas
+	    const temp = document.createElement('canvas');
+	    temp.width = img.width;
+	    temp.height = img.height;
+	    const tctx = temp.getContext('2d');
+	    
+	    // Fill temp canvas with white
+	    tctx.fillStyle = "white";
+	    tctx.fillRect(0, 0, temp.width, temp.height);
+	    
+	    // Draw the image ON TOP of the white background
+	    tctx.drawImage(img, 0, 0);
+	    
+	    // Now copy the flattened image into your real canvas
+	    canvas.width = temp.width;
+	    canvas.height = temp.height;
+	    ctx.drawImage(temp, 0, 0);
+	    
+	    hasImage = true;
+	    
+	    selection = null;
+	    clipboard = null;
+	    pastedObject = null;
+	    pastedSelected = false;
+	    
+	    copyBtn.disabled = true;
+	    cutBtn.disabled = true;
+	    pasteModeBtn.disabled = true;
+	    
+	    redraw();
 
-    // Create a temporary canvas
-    const temp = document.createElement('canvas');
-    temp.width = img.width;
-    temp.height = img.height;
-    const tctx = temp.getContext('2d');
+	    console.log(canvas.width, canvas.height);
+	    console.log(canvas.style.width, canvas.style.height);
+	    console.log("scroll area:", dei("canvasScrollArea").clientHeight);
 
-    // Fill temp canvas with white
-    tctx.fillStyle = "white";
-    tctx.fillRect(0, 0, temp.width, temp.height);
+	    const pos = getCanvasCoords(e.clientX, e.clientY);
+	    cLog("Canvas coord: ", pos);
+	    
+//	    canvas.width = img.width;
+//	    canvas.height = img.height;
+//	    canvas.style.width = img.width + "px";
+//	    canvas.style.height = img.height + "px";
 
-    // Draw the image ON TOP of the white background
-    tctx.drawImage(img, 0, 0);
-
-    // Now copy the flattened image into your real canvas
-    canvas.width = temp.width;
-    canvas.height = temp.height;
-    ctx.drawImage(temp, 0, 0);
-
-    hasImage = true;
-
-    selection = null;
-    clipboard = null;
-    pastedObject = null;
-    pastedSelected = false;
-
-    copyBtn.disabled = true;
-    cutBtn.disabled = true;
-    pasteModeBtn.disabled = true;
-
-    redraw();
-};
-
+	}; // on load
+	
 	img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
