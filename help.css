@@ -66,6 +66,12 @@
   min-height: 120px;
 }
 
+#helpPanel .help-content {
+    height: 400px;          /* pick a height you like */
+    overflow-y: auto;       /* scroll if content is longer */
+    padding-right: 10px;    /* avoid text touching scrollbar */
+}
+
 .help-buttons {
   margin-top: 12px;
   display: flex;

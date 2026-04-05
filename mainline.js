@@ -58,9 +58,16 @@ function getPinchMid(touches) {
   };
 }
 
+/*
 function applyTransform() {
   canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${currentScale})`;
   canvas.style.transformOrigin = '0 0';
+  }
+*/
+
+function applyTransform() {
+    ctx.setTransform(currentScale, 0, 0, currentScale, panX, panY);
+    redraw(); // redraws the image + selections + pasted pieces
 }
 
 // comes from copy and cut

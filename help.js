@@ -61,6 +61,14 @@ function toggleHelp(show) {
         panel.style.transform = "none";
 
         loadHelpContent("about");
+
+	// ⭐ Highlight the About button
+        document.querySelectorAll("#helpPanel .help-buttons button")
+            .forEach(b => b.classList.remove("active-help"));
+
+	document.querySelector('#helpPanel .help-buttons button[data-help="about"]')
+            .classList.add("active-help");
+	
     } else {
         panel.classList.add("hidden");
     }
@@ -112,6 +120,50 @@ function loadHelpContent(topic) {
     } // about
     
     if (topic === "steps") {
+content.innerHTML = `
+  <h3>Step by Step</h3>
+
+  <ol>
+    <li><strong>Press “Browse…”</strong>. A file window will open.</li>
+
+    <li>Select the image you want to edit and press <strong>Open</strong>.</li>
+
+    <li>The image will appear inside the editing window (outlined with a thin black border).</li>
+
+    <li>The name of the selected image will appear next to the “Browse…” button.</li>
+
+    <li>
+      Using your mouse, finger, or stylus, draw a box around the part of the image you want to
+      copy or cut. A red rectangle will show your selection.  
+      If you make a mistake, simply draw a new box — the old one disappears automatically.
+    </li>
+
+    <li>
+      When you release the mouse or lift your finger/stylus, the <strong>Copy</strong> and
+      <strong>Cut</strong> buttons become active (they will appear darker).
+    </li>
+
+    <li>
+      You can now perform any of the following actions on the selected area:
+      <ol type="a">
+        <li><strong>Copy and Paste</strong></li>
+        <li><strong>Cut</strong></li>
+        <li><strong>Cut and Paste</strong></li>
+      </ol>
+    </li>
+
+    <li>
+      When you are finished editing, press <strong>Save</strong> to export a new copy of the image.
+      Your original file is not changed.
+    </li>
+
+    <li>
+      <strong>Note:</strong> For detailed instructions on Copy, Cut, and Paste, see the additional help topics.
+    </li>
+  </ol>
+`;
+
+	/*
 	content.innerHTML = 
 	    "<h3>Step by step</h3>" +
 	    "<ol>" +
@@ -143,7 +195,7 @@ function loadHelpContent(topic) {
 	    "<li>NOTE: for steps on Copy, Cut or Paste see the addional detailed help." +
 	    "</ol>" +
 	    "<br>";
-	
+	*/
     }//steps
     
     if (topic === "copy") {
