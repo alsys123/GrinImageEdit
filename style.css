@@ -51,9 +51,8 @@ canvas {
     max-width: none;
     margin: 0 auto;
     max-width: 85%;
+    transition: none;
 }
-
-
 
 .active {
     background: #4caf50;

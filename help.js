@@ -102,7 +102,50 @@ function loadHelpContent(topic) {
       <p>This tool was created to help musicians quickly edit and prepare chord charts or annotated images. You can draw directly on the chart, clean up mistakes, move sections around, and export a finished version for printing or sharing.</p>
       <p>The interface is optimized for touch devices, so everything can be done with your finger or stylus.</p>
     `;
+	content.innerHTML +=
+	    "<p>System allows for pinch to zoom on touch tablets.</p>" +
+	    "<p> </p>" +
+	    "<p> </p>" +
+	    "<p> </p>" +
+	    "<p> </p>";	
+
     } // about
+    
+    if (topic === "steps") {
+	content.innerHTML = 
+	    "<h3>Step by step</h3>" +
+	    "<ol>" +
+	    "<li>Press 'Browse...', a window will come up -- find your image file." +
+	    "<li>Select the image you want to edit. Press Open." +
+	    "<li>The image will appear in the image window ready for you to edit." +
+	    "The image window is bordered by a thin black line." +
+	    "<li>The name of the image will appear next to the 'Browse...' button." +
+	    "<li>With your mouse or with touch screen using your finger or sylus, " +
+	    "right on the image window, draw box around the part you want to either " +
+	    "copy or cut from this image.  A red rectable will show you what you " +
+	    "select. If you make a mistake or change your mind just select another " +
+	    "area. The old will will no longer be selected." +
+	    "" +
+	    "<li>Soon as you unclick the mouse or raise you finger/stylus both the " +
+	    "Copy and Cut buttons will be active. The buttons will appear a darker " +
+	    "Grey " +
+	    "<li>You can now do the following with what you selected:" +
+
+	"<ol type = 'a' >" +
+	    "<li>Copy and Paste" +
+	    "<li>Cut" +
+	    "<li>Cut and Paste" +
+
+	"</ol>" +
+	    
+	"<li>After you Copy, Cut or Paste and you are done. Press Save to save " +
+	    "a new copy of the image.  The old one is not change." +
+	    "<li>NOTE: for steps on Copy, Cut or Paste see the addional detailed help." +
+	    "</ol>" +
+	    "<br>";
+	
+    }//steps
+    
     if (topic === "copy") {
 	content.innerHTML = `
       <h3>Copy</h3>
@@ -122,7 +165,7 @@ function loadHelpContent(topic) {
 
     if (topic === "cutPaste") {
 	content.innerHTML = `
-      <h3>Cut & Paste</h3>
+      <h3>Cut & optional Paste</h3>
 
       <p><strong>Cut</strong> removes a selected part of the image and stores it in the clipboard.</p>
 

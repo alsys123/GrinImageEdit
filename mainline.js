@@ -33,6 +33,36 @@ let draggingPasted = false;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 
+// -------------------------
+// Pinch to Zoom (iPad)
+// -------------------------
+let pinchStartDist = null;
+let pinchStartScale = 1;
+let currentScale = 1;
+let panX = 0;
+let panY = 0;
+let pinchStartPanX = 0;
+let pinchStartPanY = 0;
+let pinchMidStart = null;
+
+function getPinchDist(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function getPinchMid(touches) {
+  return {
+    x: (touches[0].clientX + touches[1].clientX) / 2,
+    y: (touches[0].clientY + touches[1].clientY) / 2
+  };
+}
+
+function applyTransform() {
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${currentScale})`;
+  canvas.style.transformOrigin = '0 0';
+}
+
 // comes from copy and cut
 function activatePasteMode() {
     
@@ -127,12 +157,12 @@ fileInput.addEventListener('change', e => {
 	    
 	    redraw();
 
-	    console.log(canvas.width, canvas.height);
-	    console.log(canvas.style.width, canvas.style.height);
-	    console.log("scroll area:", dei("canvasScrollArea").clientHeight);
+//	    console.log(canvas.width, canvas.height);
+//	    console.log(canvas.style.width, canvas.style.height);
+//	    console.log("scroll area:", dei("canvasScrollArea").clientHeight);
 
-	    const pos = getCanvasCoords(e.clientX, e.clientY);
-	    cLog("Canvas coord: ", pos);
+//	    const pos = getCanvasCoords(e.clientX, e.clientY);
+//	    cLog("Canvas coord: ", pos);
 	    
 //	    canvas.width = img.width;
 //	    canvas.height = img.height;
@@ -191,8 +221,21 @@ canvas.addEventListener('mouseup', () => finishSelection());
 // Selection (touch)
 // -------------------------
 canvas.addEventListener('touchstart', e => {
+
+    if (e.touches.length === 2) {
+	e.preventDefault();
+	isSelecting = false; // cancel any selection in progress
+	pinchStartDist = getPinchDist(e.touches);
+	pinchStartScale = currentScale;
+	pinchMidStart = getPinchMid(e.touches);
+	pinchStartPanX = panX;
+	pinchStartPanY = panY;
+    }//pinch
+    
+//}, { passive: false });
+
     if (!hasImage || pasteMode) return;
-    e.preventDefault();
+e.preventDefault();
 
     const t = e.touches[0];
     const pos = getCanvasCoords(t.clientX, t.clientY);
@@ -207,6 +250,22 @@ canvas.addEventListener('touchstart', e => {
 
 canvas.addEventListener('touchmove', e => {
     if (!isSelecting || !hasImage || pasteMode) return;
+
+    if (e.touches.length === 2) {
+    e.preventDefault();
+    const dist = getPinchDist(e.touches);
+    const newScale = Math.min(Math.max(pinchStartScale * (dist / pinchStartDist), 0.5), 5);
+    
+    // Pan to keep pinch midpoint stable
+    const mid = getPinchMid(e.touches);
+    const scaleChange = newScale / pinchStartScale;
+    panX = mid.x - scaleChange * (pinchMidStart.x - pinchStartPanX);
+    panY = mid.y - scaleChange * (pinchMidStart.y - pinchStartPanY);
+    
+    currentScale = newScale;
+    applyTransform();
+    }//pinch
+    
     e.preventDefault();
 
     const t = e.touches[0];
@@ -220,6 +279,9 @@ canvas.addEventListener('touchmove', e => {
 });
 
 canvas.addEventListener('touchend', e => {
+if (e.touches.length < 2) {
+    pinchStartDist = null;
+  } //pinch
     if (!pasteMode) finishSelection();
 });
 
