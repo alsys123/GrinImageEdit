@@ -247,7 +247,7 @@ content.innerHTML = `
 	
 	content.innerHTML = `
       <h3>Saving Your Work</h3>
-      <p>You can export your edited imags at any time. Press the <strong>Save</strong> button 
+      <p>You can export your edited image at any time. Press the <strong>Save</strong> button 
 	  to save your work as <strong>image.png</strong>.</p>
       <p>The exported file contains everything that is currently visible on the canvas, including 
 	  pasted pieces, and if any, sections that were cut out.</p>
