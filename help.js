@@ -281,6 +281,13 @@ content.innerHTML = `
       <p><strong>Cut leaves a dark area: </strong>
       This can happen if the original image contains transparency. Reload the image.
 	  All cut areas will leave a white rectangle from the cut out.</p>
+
+      <p><strong>What does RESET do: </strong>
+      The <strong>Reset</strong> button repositions the image to the original place.
+      This is
+      very handy on a tablet if you had been zooming and moving the image around.
+      This button is simply for convenience.
+       </p>
     `;
     } // faq
 }
@@ -411,4 +418,27 @@ function makeHelpPopupDraggable() {
     document.addEventListener("touchend", () => {
         isDragging = false;
     });
+}
+
+
+document.getElementById("resetBtn").addEventListener("click", resetView);
+
+function resetView() {
+    // Reset zoom + pan
+    currentScale = 1;
+    panX = 0;
+    panY = 0;
+
+    // Reset transform
+    canvas.style.transform = "none";
+
+    // Reset scroll container (if you have one)
+    const scrollArea = document.getElementById("canvasScrollArea");
+    if (scrollArea) {
+        scrollArea.scrollLeft = 0;
+        scrollArea.scrollTop = 0;
+    }
+
+    // Optional: redraw to ensure selection/paste visuals clear
+    redraw();
 }

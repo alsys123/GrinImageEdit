@@ -265,13 +265,13 @@ body.dictionaryLookup-enabled::before {
     border-radius: 10px;
 }
 
-#enableDictionaryBtn { background: #0077cc; color: white; }
+#resetBtn { background: #0077cc; color: white; }
 #enableDrawingBtn    { background: brown;   color: white; }
 #checkBtn            { background: #0077cc; color: white; }
 #fillAllBtn          { background: green;   color: white; }
 #resetPuzzleBtn      { background: black;   color: white; }
 
-#enableDictionaryBtn:hover { background: #005fa3; }
+#resetBtn:hover { background: #005fa3; }
 #enableDrawingBtn:hover    { background: #8b0000; }
 #checkBtn:hover            { background: #005fa3; }
 #fillAllBtn:hover          { background: #006600; }
