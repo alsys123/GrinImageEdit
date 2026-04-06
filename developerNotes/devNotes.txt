@@ -1,4 +1,4 @@
-
+i
 pinch to zoom 
 // -------------------------
 // Pinch to Zoom (iPad)
@@ -69,5 +69,71 @@ css
 #canvas {
   transition: none;
   touch-action: none;  /* prevents browser's default pinch-zoom interfering */
+}
+
+new version
+// -------------------------
+// Pinch to Zoom (iPad) - contained within canvasScrollArea
+// -------------------------
+let pinchStartDist = null;
+let pinchStartScale = 1;
+let currentScale = 1;
+
+function getPinchDist(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function applyTransform() {
+  // Clamp: can't go below 1 (original size), max 5x zoom in
+  currentScale = Math.max(1, Math.min(5, currentScale));
+  canvas.style.transform = `scale(${currentScale})`;
+}
+
+canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    isSelecting = false;
+    pinchStartDist = getPinchDist(e.touches);
+    pinchStartScale = currentScale;
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const dist = getPinchDist(e.touches);
+    currentScale = pinchStartScale * (dist / pinchStartDist);
+    applyTransform();
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  if (e.touches.length < 2) {
+    pinchStartDist = null;
+  }
+});
+
+#canvasScrollArea {
+    position: absolute;
+    top: 200px;         
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;           /* changed from auto to hidden */
+    -webkit-overflow-scrolling: touch; 
+    text-align: center; 
+}
+
+canvas {
+    border: 1px solid #333;
+    touch-action: none;
+    cursor: crosshair;
+    display: block;
+    max-width: 85%;
+    margin: 0 auto;
+    transform-origin: center top;  /* zoom from top-center, not 0,0 */
+    transition: none;
 }
 
